@@ -5,7 +5,7 @@ const Users = require('../models/UsersModel.js');
 const router = require('express').Router();
 
 
-// @ROUTE GET users/
+// @ROUTE GET /users
 // @DESCRIPTION Gets all users in the database
 // @ACCESS Public (will most likely be changed)
 router.get('/', async (req, res) => {
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-// @ROUTE GET users/:id
+// @ROUTE GET /users
 // @Description Gets a specific user information from the database
 // @ACCESS Public (for now...)
 router.get("/:id", async (req, res) => {

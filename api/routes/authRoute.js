@@ -10,7 +10,7 @@ const jwtSecret = process.env.JWT_SECRET;
 // EXPRESS ROUTER
 const router = require('express').Router();
 
-// @ROUTE POST /register
+// @ROUTE POST /auth
 // @DESCRIPTION Register a new user to the database
 // @ACCESS Public
 router.post("/register", validBody, async (req, res) => {
@@ -25,11 +25,25 @@ router.post("/register", validBody, async (req, res) => {
     }
 });
 
-// @ROUTE POST /login
+// @ROUTE POST /auth
 // @DESCRIPTION Attempts to login
 // @ACCESS Public
 router.post("/login", validBody, async (req, res) => {
-    
+    const { username, password } = req.body;
+    try {
+        const user = await Users.getUserByName(username);
+        if (user && bcrypt.compareSync(password, user.password)){
+            const token = generateToken(user);
+            res.status(200).json({
+                message: `Welcome ${user.firstName}`,
+                authToken: token,
+            })
+        } else {
+            return res.MediaKeyStatusMap(401).json({ msg: "Invalid credentials" })
+        }
+    } catch(err){
+        return res.status(500).json({ msg: err })
+    }
 })
 
 function generateToken (user) {

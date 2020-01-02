@@ -37,19 +37,19 @@ exports.up = function(knex) {
 
     // Non Null
     table
-    .integer('accountValue')
+    .decimal('accountValue', 9, 2)
     .notNullable()
 
     table
-    .integer('cashBalance')
+    .decimal('cashBalance', 9, 2)
     .notNullable()
     
     table
-    .integer('investmentBalance')
+    .decimal('investmentBalance', 9, 2)
     .notNullable()
 
     table
-    .integer('borrowingPower')
+    .decimal('borrowingPower', 9, 2)
     .notNullable()
 
     // Foreign Key
@@ -81,44 +81,43 @@ exports.up = function(knex) {
 
     // Non Null
     table
-    .integer('currentPrice')
+    .decimal('currentPrice', 9, 2)
     .notNullable()
 
-    table
-    .integer('bid')
-    .notNullable()
-
-    table
-    .integer('ask')
-    .notNullable()
-
-    table
-    .integer('volume')
-    .notNullable()
-
-    table
-    .integer('close')
-    .notNullable()
-
-    table
-    .integer('open')
-    .notNullable()
-
+    
     // Nullable
     table
-    .integer('52weekHigh')
-
-    table
-    .integer('52weekLow')
-
-    table
-    .integer('dayChange')
+    .string('sector')
     
     table
-    .integer('dayChangePercent')
+    .decimal('bid', 9, 2)
 
     table
-    .integer('dividend')
+    .decimal('ask', 9, 2)
+
+    table
+    .float('volume')
+
+    table
+    .decimal('close', 9, 2)
+
+    table
+    .decimal('open', 9, 2)
+
+    table
+    .decimal('52weekHigh', 9, 2)
+
+    table
+    .decimal('52weekLow', 9, 2)
+
+    table
+    .decimal('dayChange', 9, 2)
+    
+    table
+    .integer('dayChangePercent', 4)
+
+    table
+    .decimal('dividend', 9, 2)
   })
 
   .createTable('portfolio_stocks', table => {
@@ -143,6 +142,20 @@ exports.up = function(knex) {
 
     table
     .primary('portfolio_id', 'stock_id')
+
+    // Non Null
+    table
+    .integer('quantity')
+
+    table
+    .date('purchaseDate')
+
+    table
+    .date('soldDate')
+
+    table
+    .decimal('costPerShare', 9, 2)
+
   })
 };
 
