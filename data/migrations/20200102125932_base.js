@@ -51,6 +51,16 @@ exports.up = function(knex) {
     table
     .integer('borrowingPower')
     .notNullable()
+
+    // Foreign Key
+    table
+    .integer('user_id')
+    .unsigned()
+    .notNullable()
+    .references('id')
+    .inTable('paperHolders')
+    .onDelete('SET NULL')
+    .onUpdate('CASCADE')
   })
 
   // Stock Table
@@ -69,7 +79,70 @@ exports.up = function(knex) {
     .notNullable()
     .unique()
 
-    s
+    // Non Null
+    table
+    .integer('currentPrice')
+    .notNullable()
+
+    table
+    .integer('bid')
+    .notNullable()
+
+    table
+    .integer('ask')
+    .notNullable()
+
+    table
+    .integer('volume')
+    .notNullable()
+
+    table
+    .integer('close')
+    .notNullable()
+
+    table
+    .integer('open')
+    .notNullable()
+
+    // Nullable
+    table
+    .integer('52weekHigh')
+
+    table
+    .integer('52weekLow')
+
+    table
+    .integer('dayChange')
+    
+    table
+    .integer('dayChangePercent')
+
+    table
+    .integer('dividens')
+  })
+
+  .createTable('portfolio_stocks', table => {
+    // Primary Foreign Key combo
+    table
+    .integer('portfolio_id')
+    .unsigned()
+    .notNullable()
+    .references('id')
+    .inTable('paperPortfolio')
+    .onDelete('SET NULL')
+    .onUpdate('CASCADE')
+
+    table
+    .integer('stock_id')
+    .unsigned()
+    .notNullable()
+    .references('id')
+    .inTable('paperStocks')
+    .onDelete('SET NULL')
+    .onUpdate('CASCADE')
+
+    table
+    .primary('portfolio_id', 'stock_id')
   })
 };
 

@@ -1,5 +1,5 @@
 // IMPORTS
-const JWT = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 // FUNCTION
 function authenticate(req, res, next) {
@@ -7,7 +7,7 @@ function authenticate(req, res, next) {
   const secret = process.env.JWT_Secret;
 
   if (token) {
-    JWT.verify(token, secret, (err, decodedToken) => {
+    jwt.verify(token, secret, (err, decodedToken) => {
       if (err) {
         // Token expired or not valid
         res.status(401).json({ message: "User not authorized." });
