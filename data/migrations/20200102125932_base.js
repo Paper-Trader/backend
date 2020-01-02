@@ -69,7 +69,7 @@ exports.up = function(knex) {
     .notNullable()
     .unique()
 
-    
+    sss
   })
 };
 
