@@ -118,7 +118,7 @@ exports.up = function(knex) {
     .integer('dayChangePercent')
 
     table
-    .integer('dividens')
+    .integer('dividend')
   })
 
   .createTable('portfolio_stocks', table => {
@@ -147,5 +147,9 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  
+  return knex.schema
+  .dropTableIfExists('portfolio_stocks')
+  .dropTableIfExists('paperStocks')
+  .dropTableIfExists('paperPortfolio')
+  .dropTableIfExists('paperHolders')
 };
