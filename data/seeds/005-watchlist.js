@@ -1,10 +1,9 @@
 
 exports.seed = function(knex) {
-  return knex('portfolio_stocks').truncate()
+  return knex('watchlist').truncate()
     .then(function () {
-      return knex('portfolio_stocks').insert([
+      return knex('watchlist').insert([
         {
-          cash: 515,
           user_id: 1
         }
       ]);
