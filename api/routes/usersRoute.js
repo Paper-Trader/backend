@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         const allUsers = await Users.getUsers();
         res.status(200).json(allUsers);
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json({ message: `${err}` });
     }
 })
 
@@ -26,7 +26,7 @@ router.get("/:id", async (req, res) => {
       const specifiedUser = await Users.getUsers(id);
       res.status(200).json(specifiedUser);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json({ message: `${err}` });
     }
 });
 

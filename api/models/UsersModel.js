@@ -30,13 +30,9 @@ function getUsers (id) {
     return query
 }
 
-function addUser (credentials) {
-    return db("users").insert(user);
+function addUser (user) {
+    return db("users as u").insert(user);
 }
-
-// function getUserById (id) {
-//     return db("users").where({ id })
-// }
 
 function getUserByName (username){
     return db("users").where({ userName: username })

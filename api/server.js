@@ -31,7 +31,7 @@ server.use(cors());
 server.use(helmet());
 
 // ROUTES USED
-// server.use('/auth', authRouter);
+server.use('/auth', authRouter);
 server.use('/users', userRouter);
 
 module.exports = server;

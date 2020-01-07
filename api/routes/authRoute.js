@@ -17,11 +17,12 @@ router.post("/register", validBody, async (req, res) => {
     let credentials = req.body;
     let hash = bcrypt.hashSync(credentials.password, 14);
     credentials.password = hash;
+
     try {
       const addedUser = await Users.addUser(credentials);
-      return res.status(201).json({ message: "User added", addedUser });
+      res.status(201).json({ message: "User added", addedUser });
     } catch (err) {
-      res.status(500).json({ message: "Error adding user." });
+      res.status(500).json({ message: `${err}` });
     }
 });
 
