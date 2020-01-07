@@ -11,23 +11,19 @@ exports.up = function(knex) {
       table.string('lastName', 35).notNullable()
     })
 
-    .createTable('paperPortfolio', table => { // Portfolio Table
+    .createTable('portfolio', table => { // Portfolio Table
       table.increments() // Primary Key
-      table.decimal('accountValue', 9, 2).notNullable() // Non Null
-      table.decimal('cashBalance', 9, 2).notNullable()
-      table.decimal('investmentBalance', 9, 2).notNullable()
-      table.decimal('borrowingPower', 9, 2).notNullable()
+      table.decimal('cash', 9, 2).notNullable()
       table // Foreign Key
         .integer('user_id')
         .unsigned()
         .notNullable()
-        .references('id')
-        .inTable('users')
+        .references('users.id')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
     })
 
-    .createTable('paperStocks', table => { // Stock Table
+    .createTable('stocks', table => { // Stock Table
       table.increments() // Primary Key
       table.string('name', 70).notNullable().unique() // Non Null and Unique
       table.string('symbol', 5).notNullable().unique()
@@ -50,30 +46,65 @@ exports.up = function(knex) {
         .integer('portfolio_id')
         .unsigned()
         .notNullable()
-        .references('id')
-        .inTable('paperPortfolio')
+        .references('portfolio.id')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
       table
         .integer('stock_id')
         .unsigned()
         .notNullable()
-        .references('id')
-        .inTable('paperStocks')
+        .references('stocks.id')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
       table.primary('portfolio_id', 'stock_id')
-      table.integer('quantity') // Non Null
+      table.string('symbol', 8)
+      table.integer('amount')
       table.date('purchaseDate')
       table.date('soldDate')
-      table.decimal('costPerShare', 9, 2)
+      table.decimal('price', 9, 2)
+    })
+
+    .createTable('watchlist', table => { // Portfolio Table
+      table.increments() // Primary Key
+      table.decimal('accountValue', 9, 2).notNullable() // Non Null
+      table.decimal('cashBalance', 9, 2).notNullable()
+      table.decimal('investmentBalance', 9, 2).notNullable()
+      table.decimal('borrowingPower', 9, 2).notNullable()
+      table // Foreign Key
+        .integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('users.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+    })
+
+    .createTable('watchlist_stocks', table => {
+      table // Primary Foreign Key combo
+        .integer('watchlist_id')
+        .unsigned()
+        .notNullable()
+        .references('watchlist.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+      table
+        .integer('stock_id')
+        .unsigned()
+        .notNullable()
+        .references('stocks.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+      table.primary('watchlist_id', 'stock_id')
+      table.string('symbol', 8)
+      table.decimal('price', 9, 2)
     })
 };
 
 exports.down = function(knex) {
   return knex.schema
+  .dropTableIfExists('watchlist')
   .dropTableIfExists('portfolio_stocks')
-  .dropTableIfExists('paperStocks')
-  .dropTableIfExists('paperPortfolio')
+  .dropTableIfExists('stocks')
+  .dropTableIfExists('portfolio')
   .dropTableIfExists('users')
 };

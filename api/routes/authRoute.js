@@ -32,7 +32,6 @@ router.post("/login", bodyMiddleware.validLoginBody, async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await Users.getUserByName(username);
-        console.log(user)
         if (user && bcrypt.compareSync(password, user.password)){
             const token = authMiddleware.generateToken(user);
             res.status(200).json({
