@@ -31,12 +31,7 @@ server.use(cors());
 server.use(helmet());
 
 // ROUTES USED
-server.use('/auth', authRouter);
+// server.use('/auth', authRouter);
 server.use('/users', userRouter);
-
-// HOMEPAGE ROUTING
-server.get("/", (req, res) => {
-  res.send({ msg: "Server is up and running" });
-});
 
 module.exports = server;

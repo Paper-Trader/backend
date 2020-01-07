@@ -1,13 +1,12 @@
-const db = require('');
+const db = require('../../data/dbConfig');
 
 module.exports = {
-    getAllUsers,
+    getUsers,
     addUser,
-    getUserById,
     getUserByName
 }
 
-function getAllUsers (id) {
+function getUsers (id) {
     let query = db('users as u')
         .select('u.id', 'u.email', 'u.username', 'u.password', 'u.firstName', 'u.lastName')
 
