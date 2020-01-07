@@ -23,7 +23,7 @@ router.get('/', authMiddleware.authenticate, async (req, res) => {
 router.get("/:id", authMiddleware.authenticate, async (req, res) => {
     const { id } = req.params;
     try {
-      const specifiedUser = await Users.getUsers(id);
+      const specifiedUser = await Users.getUser(id);
       res.status(200).json(specifiedUser);
     } catch (err) {
       res.status(500).json({ message: `${err}` });
