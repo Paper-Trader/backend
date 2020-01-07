@@ -35,5 +35,5 @@ function addUser (user) {
 }
 
 function getUserByName (username){
-    return db("users").where({ userName: username })
+    return db("users").where({ username: username })
 }
