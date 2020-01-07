@@ -1,8 +1,10 @@
 module.exports = {
   validRegisterBody,
-  validLoginBody
+  validLoginBody,
+  validateID
 };
 
+const portfolioDB = require('../models/PortfolioModel');
 
 function validRegisterBody (req, res, next) {
   const { email, username, password, firstName, lastName } = req.body;
@@ -18,4 +20,14 @@ function validLoginBody (req, res, next) {
     if (!username || !password) res.status(500).json({ message: "Please include both fields; username, password."});
     next();
   } else res.status(500).json({ message: "Please include a body on the request." });
+}
+
+function validateID(req, res, next) {
+  return portfolioDB.getPortfolio(req.params.id)
+      .then(portfolio => {
+        if (portfolio) {
+          next();
+        } else res.status(404).json({ message: "Invalid id." })
+      })
+      .catch(() => res.status(500).json({ error: "The portfolio data could not be retrieved." }))
 }

@@ -12,9 +12,9 @@ module.exports = {
 // Define the functions
 
 function get() {
-  return db('paperStocks')
+  return db('stocks')
 }
 
 function getBySymbol(sym) {
-  return db('paperStocks').where({ symbol: sym })
+  return db('stocks').where({ symbol: sym })
 }
