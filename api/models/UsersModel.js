@@ -6,7 +6,7 @@ module.exports = {
     getUserByName
 }
 
-function getUsers (id) {
+function getUsers(id) {
     let query = db('users as u')
         .select('u.id', 'u.email', 'u.username', 'u.password', 'u.firstName', 'u.lastName')
 
@@ -31,9 +31,9 @@ function getUsers (id) {
 }
 
 function addUser (user) {
-    return db("users as u").insert(user);
+    return db("users").insert(user);
 }
 
 function getUserByName (username){
-    return db("users").where({ username: username })
+    return db("users").where('users.username', username).first();
 }

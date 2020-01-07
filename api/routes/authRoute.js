@@ -1,6 +1,5 @@
 // IMPORT OF NPM PACKAGES
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 // IMPORT OF FILES
 const Users = require('../models/UsersModel');
@@ -33,32 +32,17 @@ router.post("/login", bodyMiddleware.validLoginBody, async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await Users.getUserByName(username);
+        console.log(user)
         if (user && bcrypt.compareSync(password, user.password)){
             const token = authMiddleware.generateToken(user);
             res.status(200).json({
                 message: `Welcome ${user.firstName}`,
                 authToken: token,
             })
-        } else {
-            return res.MediaKeyStatusMap(401).json({ msg: "Invalid credentials" })
-        }
+        } else res.status(401).json({ msg: "Invalid credentials" })
     } catch(err){
-        return res.status(500).json({ msg: err })
+        res.status(500).json({ msg: `${err}` })
     }
 })
-
-function generateToken (user) {
-    const payload = {
-      username: user.id
-    };
-  
-    const options = {
-      expiresIn: "1d"
-    };
-  
-    return jwt.sign(payload, jwtSecret, options);
-}
-  
-
 
 module.exports = router;

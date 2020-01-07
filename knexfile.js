@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     useNullAsDefault:true,
-    debug: true,
+    debug: false, // change to true if you want to see the logs
     connection: {
       filename: './data/dev.sqlite3'
     },
