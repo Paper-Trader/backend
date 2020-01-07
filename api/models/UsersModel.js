@@ -5,7 +5,8 @@ module.exports = {
     getUser,
     addUser,
     getUserByName,
-    getPortfolio
+    getPortfolio,
+    getWatchlist
 }
 
 function getUsers() {
@@ -18,13 +19,13 @@ function getUser(id) {
         .join('portfolio as p', 'u.id', 'p.user_id')
         .where('u.id', id).first();
 
-    return Promise.all([query, this.getPortfolio(id)])
+    return Promise.all([query, this.getPortfolio(id), this.getWatchlist(id)])
         .then(data => {
-            let [user, portfolio] = data
-            
+            let [user, portfolio, watchlist] = data
+
             if (user) {
                 user.portfolio = portfolio.map(portfolio => portfolio);
-
+                user.watchlist = watchlist.map(watchlist => watchlist);
                 return user
             } else {
                 return null
@@ -47,4 +48,13 @@ function getPortfolio(id) {
         .join('stocks as s', 's.id', 'ps.stock_id')
 
     return query.where('p.user_id', id);
+}
+
+function getWatchlist(id) {
+    let query = db('watchlist as wl')
+        .select('wls.stock_id', 's.symbol', 's.price')
+        .join('watchlist_stocks as wls', 'wl.id', 'wls.watchlist_id')
+        .join('stocks as s', 's.id', 'wls.stock_id')
+
+    return query.where('wl.user_id', id);
 }
