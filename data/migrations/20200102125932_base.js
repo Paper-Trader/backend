@@ -9,7 +9,6 @@ exports.up = function(knex) {
       table.string('email').notNullable().unique()
       table.string('firstName', 35).notNullable()
       table.string('lastName', 35).notNullable()
-      table.string('password', 35).notNullable()
     })
 
     .createTable('paperPortfolio', table => { // Portfolio Table
@@ -23,7 +22,7 @@ exports.up = function(knex) {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('paperHolders')
+        .inTable('users')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
     })
