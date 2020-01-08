@@ -21,8 +21,8 @@ server.use(helmet());
 // ROUTES USED
 server.use('/auth', authRouter);
 server.use('/', userRouter);
-server.use('/portfolios', portfolioRouter);
-server.use('/watchlists', watchlistRouter);
+server.use('/portfolio', portfolioRouter);
+server.use('/watchlist', watchlistRouter);
 
 // HOMEPAGE ROUTING
 server.get("/", (req, res) => {

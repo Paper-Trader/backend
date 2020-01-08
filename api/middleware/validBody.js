@@ -23,7 +23,8 @@ function validLoginBody (req, res, next) {
 }
 
 function validateID(req, res, next) {
-  return portfolioDB.getPortfolio(req.params.id)
+  const { username } = res.decodeJwt;
+  return portfolioDB.getPortfolio(username)
       .then(portfolio => {
         if (portfolio) {
           next();
