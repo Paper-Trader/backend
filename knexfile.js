@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     useNullAsDefault:true,
-    debug: true,
+    debug: false, // change to true if you want to see the logs
     connection: {
       filename: './data/dev.sqlite3'
     },
@@ -14,7 +14,14 @@ module.exports = {
     },
     seeds: {
       directory: './data/seeds'
-    }
+    },
+    useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, done) => {
+        // runs after a connection is made to the sqlite engine
+        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
+      },
+    },
   },
 
   testing: {
@@ -30,7 +37,17 @@ module.exports = {
     },
     migrations: {
       tableName: 'knex_migrations'
-    }
+    },
+    seeds: {
+      directory: './data/seeds'
+    },
+    useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn, done) => {
+        // runs after a connection is made to the sqlite engine
+        conn.run('PRAGMA foreign_keys = ON', done); // turn on FK enforcement
+      },
+    },
   },
 
   production: {

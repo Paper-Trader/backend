@@ -1,168 +1,105 @@
 
 exports.up = function(knex) {
-  // User Table
-  return knex.schema.createTable('paperHolders', table => {
-    // Primary Key
-    table.increments();
+  return knex.schema
 
-    // Non Null and Unique
-    table
-    .string('userName', 35)
-    .notNullable()
-    .unique()
+    .createTable('users', table => { // User Table
+      table.increments(); // Primary Key
+      table.string('username', 35).notNullable().unique() // Non Null and Unique
+      table.string('password', 35).notNullable(); 
+      table.string('email').notNullable().unique()
+      table.string('firstName', 35).notNullable()
+      table.string('lastName', 35).notNullable()
+    })
 
-    table
-    .string('email')
-    .notNullable()
-    .unique()
+    .createTable('portfolio', table => { // Portfolio Table
+      table.increments() // Primary Key
+      table.decimal('cash', 9, 2).notNullable()
+      table // Foreign Key
+        .integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('users.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+    })
 
-    // Non Null
-    table
-    .string('firstName', 35)
-    .notNullable()
-    
-    table
-    .string('lastName', 35)
-    .notNullable()
-    
-    table
-    .string('password', 35)
-    .notNullable()
-  })
+    .createTable('stocks', table => { // Stock Table
+      table.increments() // Primary Key
+      // table.string('name', 70).notNullable().unique() // Non Null and Unique
+      table.string('symbol', 5).notNullable().unique()
+      table.decimal('price', 9, 2).notNullable() // Non Null
+      // table.string('sector') // Nullable
+      // table.decimal('bid', 9, 2)
+      // table.decimal('ask', 9, 2)
+      // table.float('volume')
+      // table.decimal('close', 9, 2)
+      // table.decimal('open', 9, 2)
+      // table.decimal('52weekHigh', 9, 2)
+      // table.decimal('52weekLow', 9, 2)
+      // table.decimal('dayChange', 9, 2)
+      // table.integer('dayChangePercent', 4)
+      // table.decimal('dividend', 9, 2)
+    })
 
-  // Portfolio Table
-  .createTable('paperPortfolio', table => {
-    // Primary Key
-    table.increments()
+    .createTable('portfolio_stocks', table => {
+      table // Primary Foreign Key combo
+        .integer('portfolio_id')
+        .unsigned()
+        .notNullable()
+        .references('portfolio.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+      table
+        .integer('stock_id')
+        .unsigned()
+        .notNullable()
+        .references('stocks.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+      // table.primary('portfolio_id', 'stock_id')
+      table.integer('amount')
+      // table.date('purchaseDate')
+      // table.date('soldDate')
+    })
 
-    // Non Null
-    table
-    .decimal('accountValue', 9, 2)
-    .notNullable()
+    .createTable('watchlist', table => { // Portfolio Table
+      table.increments() // Primary Key
+      table // Foreign Key
+        .integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('users.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+    })
 
-    table
-    .decimal('cashBalance', 9, 2)
-    .notNullable()
-    
-    table
-    .decimal('investmentBalance', 9, 2)
-    .notNullable()
-
-    table
-    .decimal('borrowingPower', 9, 2)
-    .notNullable()
-
-    // Foreign Key
-    table
-    .integer('user_id')
-    .unsigned()
-    .notNullable()
-    .references('id')
-    .inTable('paperHolders')
-    .onDelete('SET NULL')
-    .onUpdate('CASCADE')
-  })
-
-  // Stock Table
-  .createTable('paperStocks', table => {
-    // Primary Key
-    table.increments()
-
-    // Non Null and Unique
-    table
-    .string('name', 70)
-    .notNullable()
-    .unique()
-
-    table
-    .string('symbol', 5)
-    .notNullable()
-    .unique()
-
-    // Non Null
-    table
-    .decimal('currentPrice', 9, 2)
-    .notNullable()
-
-    
-    // Nullable
-    table
-    .string('sector')
-    
-    table
-    .decimal('bid', 9, 2)
-
-    table
-    .decimal('ask', 9, 2)
-
-    table
-    .float('volume')
-
-    table
-    .decimal('close', 9, 2)
-
-    table
-    .decimal('open', 9, 2)
-
-    table
-    .decimal('52weekHigh', 9, 2)
-
-    table
-    .decimal('52weekLow', 9, 2)
-
-    table
-    .decimal('dayChange', 9, 2)
-    
-    table
-    .integer('dayChangePercent', 4)
-
-    table
-    .decimal('dividend', 9, 2)
-  })
-
-  .createTable('portfolio_stocks', table => {
-    // Primary Foreign Key combo
-    table
-    .integer('portfolio_id')
-    .unsigned()
-    .notNullable()
-    .references('id')
-    .inTable('paperPortfolio')
-    .onDelete('SET NULL')
-    .onUpdate('CASCADE')
-
-    table
-    .integer('stock_id')
-    .unsigned()
-    .notNullable()
-    .references('id')
-    .inTable('paperStocks')
-    .onDelete('SET NULL')
-    .onUpdate('CASCADE')
-
-    table
-    .primary('portfolio_id', 'stock_id')
-
-    // Non Null
-    table
-    .integer('quantity')
-
-    table
-    .date('purchaseDate')
-
-    table
-    .date('soldDate')
-
-    table
-    .decimal('costPerShare', 9, 2)
-
-  })
+    .createTable('watchlist_stocks', table => {
+      table // Primary Foreign Key combo
+        .integer('watchlist_id')
+        .unsigned()
+        .notNullable()
+        .references('watchlist.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+      table
+        .integer('stock_id')
+        .unsigned()
+        .notNullable()
+        .references('stocks.id')
+        .onDelete('SET NULL')
+        .onUpdate('CASCADE')
+      // table.primary('watchlist_id', 'stock_id')
+      table.string('symbol', 8)
+      table.decimal('price', 9, 2)
+    })
 };
 
 exports.down = function(knex) {
   return knex.schema
-  .dropTableIfExists('portfolio_stocks')
-  .dropTableIfExists('paperStocks')
-  .dropTableIfExists('paperPortfolio')
-  .dropTableIfExists('paperHolders')
+    .dropTableIfExists('watchlist_stocks')
+    .dropTableIfExists('watchlist')
+    .dropTableIfExists('portfolio_stocks')
+    .dropTableIfExists('stocks')
+    .dropTableIfExists('portfolio')
+    .dropTableIfExists('users')
 };

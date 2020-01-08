@@ -1,24 +1,33 @@
 // IMPORTS
 const jwt = require("jsonwebtoken");
 
+// EXPORTS
+module.exports = {
+  authenticate,
+  generateToken,
+}
+
 // FUNCTION
 function authenticate(req, res, next) {
   const token = req.headers.authorization;
-  const secret = process.env.JWT_Secret;
 
   if (token) {
+    const secret = process.env.JWT_SECRET;
+
     jwt.verify(token, secret, (err, decodedToken) => {
-      if (err) {
-        // Token expired or not valid
-        res.status(401).json({ message: "User not authorized." });
-      } else {
-        // Token verified; moves to the next middleware in sequence/endpoint
+      if (err) res.status(401).json({ message: "User not authorized." }) // Token expired or not valid
+      else { // Token verified; moves to the next middleware in sequence/endpoint
+        res.decodeJwt = decodedToken; 
         next(); //move on to the requested endpoint
-      }
+      } 
     });
-  } else {
-    res.status(401).json({ message: "No token provided." });
-  }
+  } else res.status(401).json({ message: "No token provided." });
 }
-// EXPORTS
-module.exports = authenticate;
+
+function generateToken(user) {
+  const payload = { username: user.username };
+  const secret = process.env.JWT_SECRET;
+  const options = { expiresIn: '8h' };
+
+  return jwt.sign(payload, secret, options)
+}
