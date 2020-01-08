@@ -24,4 +24,9 @@ server.use('/users', userRouter);
 server.use('/portfolios', portfolioRouter);
 server.use('/watchlists', watchlistRouter);
 
+// HOMEPAGE ROUTING
+server.get("/", (req, res) => {
+  res.send({ msg: "Server is up and running" });
+});
+
 module.exports = server;
