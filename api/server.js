@@ -8,6 +8,7 @@ const helmet = require("helmet");
 const authRouter = require('./routes/authRoute');
 const userRouter = require('./routes/usersRoute');
 const portfolioRouter = require('./routes/portfolioRoute');
+const watchlistRouter = require('./routes/watchlistRoute');
 
 // SERVER INITIALIZATION + MIDDLEWARE
 const server = express();
@@ -21,5 +22,6 @@ server.use(helmet());
 server.use('/auth', authRouter);
 server.use('/users', userRouter);
 server.use('/portfolios', portfolioRouter);
+server.use('/watchlists', watchlistRouter);
 
 module.exports = server;

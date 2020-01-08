@@ -13,7 +13,7 @@ function getPortfolios() {
 }
 
 function getPortfolio(id) {
-  let query =  db('portfolio as p')
+  let query = db('portfolio as p')
     .select('p.id', 'u.username', 'p.cash')
     .join('users as u', 'u.id', 'p.user_id')
     .where('p.id', id).first();
