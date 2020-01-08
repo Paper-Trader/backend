@@ -11,7 +11,7 @@ const router = require('express').Router();
 // @ROUTE GET /users
 // @DESCRIPTION Gets all users in the database
 // @ACCESS Private
-router.get('/', authMiddleware.authenticate, async (req, res) => {
+router.get('/users', authMiddleware.authenticate, async (req, res) => {
     try {
         const allUsers = await Users.getUsers();
         res.status(200).json(allUsers);
@@ -23,10 +23,11 @@ router.get('/', authMiddleware.authenticate, async (req, res) => {
 // @ROUTE GET /users:id
 // @Description Gets a specific user information from the database
 // @ACCESS Private
-router.get("/:id", authMiddleware.authenticate, async (req, res) => {
-    const { id } = req.params;
+router.get("/user", authMiddleware.authenticate, async (req, res) => {
+    const { username } = res.decodeJwt;
+
     try {
-      const specifiedUser = await Users.getUser(id);
+      const specifiedUser = await Users.getUser(username);
       res.status(200).json(specifiedUser);
     } catch (err) {
       res.status(500).json({ message: `${err}` });
@@ -52,6 +53,18 @@ router.get('/:id/watchlist', authMiddleware.authenticate, bodyMiddleware.validat
   try {
     const singleWatchlist = await Watchlist.getWatchlist(req.params.id);
     res.status(200).json(singleWatchlist)
+  } catch (err) {
+    res.status(500).json({ message: `${err}` });
+  }
+})
+
+// @ROUTE POST /:id/portfolios
+// @DESCRIPTION Gets all portfolios in the database
+// @ACCESS Private
+router.post('/:id/portfolios', authMiddleware.authenticate, async (req, res) => {
+  try {
+    const singleWatchlist = await Watchlist.getWatchlist(req.params.id);
+    res.status(201).json(singleWatchlist)
   } catch (err) {
     res.status(500).json({ message: `${err}` });
   }

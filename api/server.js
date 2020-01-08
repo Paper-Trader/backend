@@ -20,7 +20,7 @@ server.use(helmet());
 
 // ROUTES USED
 server.use('/auth', authRouter);
-server.use('/users', userRouter);
+server.use('/', userRouter);
 server.use('/portfolios', portfolioRouter);
 server.use('/watchlists', watchlistRouter);
 
