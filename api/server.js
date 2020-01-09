@@ -9,18 +9,20 @@ const authRouter = require('./routes/authRoute');
 const userRouter = require('./routes/usersRoute');
 const portfolioRouter = require('./routes/portfolioRoute');
 const watchlistRouter = require('./routes/watchlistRoute');
+const stockRouter = require('./routes/stocksRoute');
 
 // SERVER INITIALIZATION + MIDDLEWARE
 const server = express();
 
 server.use(express.json());
-server.use(morgan("combined"));
 server.use(cors());
+server.use(morgan("combined"));
 server.use(helmet());
 
 // ROUTES USED
 server.use('/auth', authRouter);
 server.use('/', userRouter);
+server.use('/stock', stockRouter);
 server.use('/portfolio', portfolioRouter);
 server.use('/watchlist', watchlistRouter);
 
