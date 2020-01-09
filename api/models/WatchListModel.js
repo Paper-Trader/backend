@@ -1,9 +1,17 @@
 const db = require('../../data/dbConfig');
-const middleware = require('./UsersModel');
 
 module.exports = {
     getWatchlists,
     getWatchlist
+}
+
+function getWatchlist(username) {
+  return db('watchlist as wl')
+      .select('s.symbol', 's.price')
+      .join('watchlist_stocks as wls', 'wl.id', 'wls.watchlist_id')
+      .join('stocks as s', 's.id', 'wls.stock_id')
+      .join('users as u', 'wl.user_id', 'u.id')
+      .where('u.username', username);
 }
 
 function getWatchlists() {
@@ -12,24 +20,5 @@ function getWatchlists() {
       .join('users as u', 'u.id', 'wl.user_id');
 }
 
-function getWatchlist(id) {
-  let query = db('watchlist as wl')
-    .select('wl.id', 'u.username')
-    .join('users as u', 'u.id', 'wl.user_id')
-    .where('wl.id', id).first();
-
-  return Promise.all([query, middleware.getWatchlist(id)])
-    .then(data => {
-        let [user, watchlist] = data
-
-        if (user) {
-            user.watchlist = watchlist.map(watchlist => watchlist);
-
-            return user
-        } else {
-            return null
-        }
-    })
-}
 
 

@@ -1,12 +1,12 @@
 const db = require('../../data/dbConfig');
+const portDB = require('../models/PortfolioModel');
+const watchDB = require('../models/WatchListModel');
 
 module.exports = {
     getUsers,
     getUser,
     addUser,
-    getUserByName,
-    getPortfolio,
-    getWatchlist
+    getUserByName
 }
 
 function getUsers() {
@@ -19,7 +19,7 @@ function getUser(username) {
         .join('portfolio as p', 'u.id', 'p.user_id')
         .where('u.username', username).first();
 
-    return Promise.all([query, this.getPortfolio(username), this.getWatchlist(username)])
+    return Promise.all([query, portDB.getPortfolio(username), watchDB.getWatchlist(username)])
         .then(data => {
             let [user, portfolio, watchlist] = data
 
@@ -39,24 +39,4 @@ function addUser(user) {
 
 function getUserByName(username){
     return db("users").where('users.username', username).first();
-}
-
-function getPortfolio(username) {
-    let query = db('portfolio as p')
-        .select('s.symbol', 's.price', 'ps.amount')
-        .join('portfolio_stocks as ps', 'p.id', 'ps.portfolio_id')
-        .join('stocks as s', 's.id', 'ps.stock_id')
-        .join('users as u', 'p.user_id', 'u.id')
-
-    return query.where('u.username', username);
-}
-
-function getWatchlist(username) {
-    let query = db('watchlist as wl')
-        .select('s.symbol', 's.price')
-        .join('watchlist_stocks as wls', 'wl.id', 'wls.watchlist_id')
-        .join('stocks as s', 's.id', 'wls.stock_id')
-        .join('users as u', 'wl.user_id', 'u.id')
-
-    return query.where('u.username', username);
 }

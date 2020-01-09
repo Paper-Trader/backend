@@ -6,15 +6,17 @@ const authMiddleware = require('../middleware/authenticate');
 const router = require('express').Router();
 
 // @ROUTE GET /watchlist
-// @DESCRIPTION Gets all watchlists in the database
+// @DESCRIPTION Gets user watchlist in the database
 // @ACCESS Private
 router.get('/', authMiddleware.authenticate, async (req, res) => {
+  const { username } = res.decodeJwt;
   try {
-    const allWatchlists = await Watchlist.getWatchlists();
-    res.status(200).json(allWatchlists)
+    const singleWatchlists = await Watchlist.getWatchlist(username);
+    res.status(200).json(singleWatchlists)
   } catch (err) {
     res.status(500).json({ message: `${err}` });
   }
 })
+
 
 module.exports = router;

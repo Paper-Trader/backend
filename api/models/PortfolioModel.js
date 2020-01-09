@@ -1,35 +1,21 @@
 const db = require('../../data/dbConfig');
-const middleware = require('./UsersModel');
 
 module.exports = {
-    getPortfolios,
-    getPortfolio
+    getPortfolio,
+    // updatePortfolio
 }
 
-function getPortfolios() {
-    return db('portfolio as p')
-      .select('p.id', 'u.username', 'p.cash')
-      .join('users as u', 'u.id', 'p.user_id');
+function getPortfolio(username) {
+  return db('portfolio as p')
+    .select('s.symbol', 's.price', 'ps.amount')
+    .join('portfolio_stocks as ps', 'p.id', 'ps.portfolio_id')
+    .join('stocks as s', 's.id', 'ps.stock_id')
+    .join('users as u', 'p.user_id', 'u.id')
+    .where('u.username', username)
 }
 
-function getPortfolio(id) {
-  let query = db('portfolio as p')
-    .select('p.id', 'u.username', 'p.cash')
-    .join('users as u', 'u.id', 'p.user_id')
-    .where('p.id', id).first();
-
-  return Promise.all([query, middleware.getPortfolio(id)])
-    .then(data => {
-        let [user, portfolio] = data
-
-        if (user) {
-            user.portfolio = portfolio.map(portfolio => portfolio);
-
-            return user
-        } else {
-            return null
-        }
-    })
-}
+// function updatePortfolio(username, data) { // todo
+//   console.log(data)
+// }
 
 
