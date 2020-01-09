@@ -9,7 +9,7 @@ function getWatchlist(username) {
   return db('watchlist as wl')
       .select('s.symbol', 's.price')
       .join('watchlist_stocks as wls', 'wl.id', 'wls.watchlist_id')
-      .join('stocks as s', 's.id', 'wls.stock_id')
+      .join('stocks as s', 's.symbol', 'wls.stock_symbol')
       .join('users as u', 'wl.user_id', 'u.id')
       .where('u.username', username);
 }

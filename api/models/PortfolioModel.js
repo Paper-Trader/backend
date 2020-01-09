@@ -9,7 +9,7 @@ function getPortfolio(username) {
   return db('portfolio as p')
     .select('s.symbol', 's.price', 'ps.amount')
     .join('portfolio_stocks as ps', 'p.id', 'ps.portfolio_id')
-    .join('stocks as s', 's.id', 'ps.stock_id')
+    .join('stocks as s', 's.symbol', 'ps.stock_symbol')
     .join('users as u', 'p.user_id', 'u.id')
     .where('u.username', username)
 }
