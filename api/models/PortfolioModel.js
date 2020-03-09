@@ -15,7 +15,7 @@ function getPortfolio(username) {
 }
 
 function addPortfolio(id) {
-  console.log(id)
+  // console.log(id)
   // return db('portfolio as p')
   //   .join('users as u', 'p.user_id', 'u.id')
   //   .where('u.id', id)
@@ -23,7 +23,11 @@ function addPortfolio(id) {
   //     cash: 10000,
   //     user_id: id
   //   })
-  return db('portfolio').insert(id)
+
+  return db('portfolio').insert({
+    cash: 10000,
+    user_id: id
+  })
 }
 
 
