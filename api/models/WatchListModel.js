@@ -2,7 +2,8 @@ const db = require('../../data/dbConfig');
 
 module.exports = {
     getWatchlists,
-    getWatchlist
+    getWatchlist,
+    addWatchlist
 }
 
 function getWatchlist(username) {
@@ -18,6 +19,10 @@ function getWatchlists() {
     return db('watchlist as wl')
       .select('wl.id', 'u.username')
       .join('users as u', 'u.id', 'wl.user_id');
+}
+
+function addWatchlist(id) {
+  return db('watchlist').insert({user_id: id})
 }
 
 

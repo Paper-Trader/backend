@@ -22,7 +22,6 @@ router.get('/users', authMiddleware.authenticate, async (req, res) => {
 // @ACCESS Private
 router.get("/user", authMiddleware.authenticate, async (req, res) => {
     const { username } = res.decodeJwt;
-
     try {
       const specifiedUser = await Users.getUser(username);
       res.status(200).json(specifiedUser);

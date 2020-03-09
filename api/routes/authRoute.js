@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const Users = require('../models/UsersModel');
 const bodyMiddleware = require('../middleware/validBody')
 const authMiddleware = require('../middleware/authenticate');
+const Port = require('../models/PortfolioModel');
+const Watch = require('../models/WatchListModel');
 
 // EXPRESS ROUTER
 const router = require('express').Router();
@@ -19,7 +21,9 @@ router.post("/register", bodyMiddleware.validRegisterBody, async (req, res) => {
 
     try {
       const addedUser = await Users.addUser(credentials);
-      res.status(201).json({ message: "User added", addedUser });
+      await Port.addPortfolio(addedUser)
+      await Watch.addWatchlist(addedUser)
+      res.status(201).json({ message: `User added, ${addedUser}` });
     } catch (err) {
       res.status(500).json({ message: `${err}` });
     }
