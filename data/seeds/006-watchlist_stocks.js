@@ -5,15 +5,15 @@ exports.seed = function(knex) {
       return knex('watchlist_stocks').insert([
         {
           watchlist_id: 1,
-          stock_id: 4,
+          stock_symbol: 'TWTR',
         },
         {
           watchlist_id: 1,
-          stock_id: 5,
+          stock_symbol: 'ATVI',
         },
         {
           watchlist_id: 1,
-          stock_id: 6,
+          stock_symbol: 'AMD',
         }
       ]);
     });

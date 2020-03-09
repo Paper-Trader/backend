@@ -19,6 +19,19 @@ router.get('/', authMiddleware.authenticate, bodyMiddleware.validateID, async (r
   }
 })
 
+// @ROUTE POST /portfolio
+// @DESCRIPTION Gets user portfolio in the database
+// @ACCESS Private
+router.get('/', authMiddleware.authenticate, bodyMiddleware.validateID, async (req, res) => {
+  const { username } = res.decodeJwt;
+  try {
+    const singlePortfolio = await Portfolios.getPortfolio(username);
+    res.status(200).json(singlePortfolio)
+  } catch (err) {
+    res.status(500).json({ message: `${err}` });
+  }
+})
+
 // // @ROUTE PUT /portfolio
 // // @DESCRIPTION Updates user portfolio in the database from redux state
 // // @ACCESS Private
