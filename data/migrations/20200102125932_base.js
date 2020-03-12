@@ -27,7 +27,7 @@ exports.up = function(knex) {
       table.increments() // Primary Key
       // table.string('name', 70).notNullable().unique() // Non Null and Unique
       table.string('symbol', 5).notNullable().unique()
-      table.decimal('price', 9, 2).notNullable() // Non Null
+      // table.decimal('price', 9, 2).notNullable() // Non Null
       // table.string('sector') // Nullable
       // table.decimal('bid', 9, 2)
       // table.decimal('ask', 9, 2)

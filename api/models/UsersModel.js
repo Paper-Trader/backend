@@ -10,12 +10,13 @@ module.exports = {
 }
 
 function getUsers() {
-    return db('users as u').select('u.email', 'u.username', 'u.password', 'u.firstName', 'u.lastName')
+    return db('users as u')
+        .select('u.email', 'u.username', 'u.password', 'u.firstName', 'u.lastName')
 }
 
 function getUser(username) {
     let query = db('users as u')
-        .select('u.username', 'p.cash')
+        .select('u.username', 'p.cash', 'u.firstName')
         .join('portfolio as p', 'u.id', 'p.user_id')
         .where('u.username', username).first();
 

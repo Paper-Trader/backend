@@ -37,6 +37,7 @@ router.post("/register", bodyMiddleware.validRegisterBody, async (req, res) => {
 // @ACCESS Public
 router.post("/login", bodyMiddleware.validLoginBody, async (req, res) => {
     const { username, password } = req.body;
+    
     try {
         const user = await Users.getUserByName(username);
         if (user && bcrypt.compareSync(password, user.password)){
