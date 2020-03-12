@@ -27,6 +27,18 @@ exports.seed = function(knex) {
           symbol: 'AMD',
           price: 48.39
         },
+        {
+          symbol: 'GOOGL',
+          price: 1210.90
+        },
+        {
+          symbol: 'AMZN',
+          price: 1820.86
+        },
+        {
+          symbol: 'TSLA',
+          price: 634.23
+        }
       ]);
     });
 };

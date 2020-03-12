@@ -3,7 +3,8 @@ const db = require('../../data/dbConfig');
 module.exports = {
     getWatchlists,
     getWatchlist,
-    addWatchlist
+    addWatchlist,
+    addToWatchList
 }
 
 function getWatchlist(username) {
@@ -23,6 +24,13 @@ function getWatchlists() {
 
 function addWatchlist(id) {
   return db('watchlist').insert({user_id: id})
+}
+
+function addToWatchList(id, stock) {
+  return db('watchlist_stocks').insert({
+    watchlist_id: id,
+    stock_symbol: stock
+  })
 }
 
 
