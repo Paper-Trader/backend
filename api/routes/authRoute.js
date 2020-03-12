@@ -23,7 +23,10 @@ router.post("/register", bodyMiddleware.validRegisterBody, async (req, res) => {
       const addedUser = await Users.addUser(credentials);
       await Port.addPortfolio(addedUser[0])
       await Watch.addWatchlist(addedUser[0])
-      res.status(201).json({ message: `User added, ${addedUser}` });
+      await Watch.addToWatchList(addedUser[0], 'TSLA')
+      await Watch.addToWatchList(addedUser[0], 'AMZN')
+      await Watch.addToWatchList(addedUser[0], 'GOOGL')
+      res.status(201).json({ message: `User Created, ${addedUser}` });
     } catch (err) {
       res.status(500).json({ message: `${err}` });
     }
