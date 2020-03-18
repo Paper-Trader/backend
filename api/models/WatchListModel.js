@@ -28,7 +28,6 @@ function addWatchlist(id) {
 }
 
 function addToWatchList(id, stock) {
-  console.log(id, stock)
   return db('watchlist_stocks').insert({
     watchlist_id: id,
     stock_symbol: stock
