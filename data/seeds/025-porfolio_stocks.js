@@ -5,17 +5,17 @@ exports.seed = function(knex) {
       return knex('portfolio_stocks').insert([
         {
           portfolio_id: 1,
-          stock_symbol: 'AMD',
+          stock_symbol: "AMD",
           amount: 14
         },
         {
           portfolio_id: 1,
-          stock_symbol: 'AAPL',
+          stock_symbol: "AAPL",
           amount: 17
         },
         {
           portfolio_id: 1,
-          stock_symbol: 'MU',
+          stock_symbol: "MU",
           amount: 21
         },
       ]);
