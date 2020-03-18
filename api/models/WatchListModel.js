@@ -9,7 +9,7 @@ module.exports = {
 
 function getWatchlist(username) {
   return db('watchlist as wl')
-      .select('s.symbol', 's.price')
+      .select('s.symbol')
       .join('watchlist_stocks as wls', 'wl.id', 'wls.watchlist_id')
       .join('stocks as s', 's.symbol', 'wls.stock_symbol')
       .join('users as u', 'wl.user_id', 'u.id')
