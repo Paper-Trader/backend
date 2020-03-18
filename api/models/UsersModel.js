@@ -1,12 +1,12 @@
 const db = require('../../data/dbConfig');
-const portDB = require('../models/PortfolioModel');
-const watchDB = require('../models/WatchListModel');
+const portDB = require('./PortfolioModel');
+const watchDB = require('./WatchListModel');
 
 module.exports = {
     getUsers,
     getUser,
     addUser,
-    getUserByName
+    getUserByName,
 }
 
 function getUsers() {
