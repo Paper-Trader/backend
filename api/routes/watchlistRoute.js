@@ -25,8 +25,7 @@ router.post('/', authMiddleware.authenticate, async (req, res) => {
   const { id, username } = res.decodeJwt;
   try {
     await Watchlist.addToWatchList(id, req.body.symbol);
-    let userWatchList = await Watchlist.getWatchlist(username)
-    res.status(200).json(userWatchList)
+    res.status(200).json(req.body.symbol)
   } catch (err) {
     res.status(500).json({ message: `${err}` });
   }
