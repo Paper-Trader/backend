@@ -22,7 +22,7 @@ router.get('/', authMiddleware.authenticate, async (req, res) => {
 // @DESCRIPTION Posts a stock to the user's watch list
 // @ACCESS Private
 router.post('/', authMiddleware.authenticate, async (req, res) => {
-  const { id, username } = res.decodeJwt;
+  const { id } = res.decodeJwt;
   try {
     await Watchlist.addToWatchList(id, req.body.symbol);
     res.status(200).json(req.body.symbol)
