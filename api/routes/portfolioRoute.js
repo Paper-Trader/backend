@@ -36,4 +36,36 @@ router.put('/cash', authMiddleware.authenticate, async (req, res) => {
   }
 })
 
+// // @ROUTE POST /portfolio
+// // @DESCRIPTION Adds stock to user portfolio
+// // @ACCESS Private
+router.post('/buy', authMiddleware.authenticate, async (req, res) => {
+  const stock = req.body;
+  const { id } = res.decodeJwt;
+
+  try {
+    const buyStock = await Portfolios.buyStock(stock, id);
+
+    res.status(200).json(buyStock)
+  } catch (err) {
+    res.status(500).json({ message: `${err}` });
+  }
+})
+
+// // @ROUTE DEL /portfolio
+// // @DESCRIPTION Removes stock from user portfolio
+// // @ACCESS Private
+router.delete('/sell', authMiddleware.authenticate, async (req, res) => {
+  const stock = req.body;
+  const { id } = res.decodeJwt;
+
+  try {
+    const sellStock = await Portfolios.sellStock(stock, id);
+
+    res.status(200).json(sellStock)
+  } catch (err) {
+    res.status(500).json({ message: `${err}` });
+  }
+})
+
 module.exports = router;

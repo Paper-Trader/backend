@@ -4,7 +4,9 @@ module.exports = {
     getPortfolio,
     addPortfolio,
     getCashPort,
-    updateCash
+    updateCash,
+    buyStock,
+    sellStock,
 }
 
 function getPortfolio(username) {
@@ -30,11 +32,27 @@ function addPortfolio(id) {
   })
 }
 
-
 function updateCash(changes, id) {
   return db('portfolio')
     .where({user_id: id})
     .update(changes)
 }
 
+function buyStock(data, id) {
+  return db('portfolio_stocks')
+    .insert({
+      portfolio_id: id,
+      stock_symbol: data.stock_symbol,
+      amount: data.amount
+    })
+}
 
+function sellStock(data, id) {
+  console.log(data)
+  return db('portfolio_stocks')
+    .where({
+      portfolio_id: id,
+      stock_symbol: data.stock_symbol
+    })
+    .del()
+}
