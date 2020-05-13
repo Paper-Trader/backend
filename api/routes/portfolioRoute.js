@@ -42,9 +42,27 @@ router.put('/cash', authMiddleware.authenticate, async (req, res) => {
 router.post('/buy', authMiddleware.authenticate, async (req, res) => {
   const stock = req.body;
   const { id } = res.decodeJwt;
+  console.log(stock, id)
 
   try {
     const buyStock = await Portfolios.buyStock(stock, id);
+
+    res.status(200).json(buyStock)
+  } catch (err) {
+    res.status(500).json({ message: `${err}` });
+  }
+})
+
+// // @ROUTE PUT /portfolio
+// // @DESCRIPTION updates amount to existing stock in user portfolio
+// // @ACCESS Private
+router.put('/buy', authMiddleware.authenticate, async (req, res) => {
+  const stock = req.body;
+  const { id } = res.decodeJwt;
+  console.log(stock, id)
+
+  try {
+    const buyStock = await Portfolios.buyExistingStock(stock, id);
 
     res.status(200).json(buyStock)
   } catch (err) {

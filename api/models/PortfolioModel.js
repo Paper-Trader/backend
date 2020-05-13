@@ -7,6 +7,7 @@ module.exports = {
     updateCash,
     buyStock,
     sellStock,
+    buyExistingStock,
 }
 
 function getPortfolio(username) {
@@ -47,8 +48,16 @@ function buyStock(data, id) {
     })
 }
 
+function buyExistingStock(data, id) {
+  return db('portfolio_stocks')
+    .where({portfolio_id: id})
+    .where({stock_symbol: data.stock_symbol})
+    .update({
+      amount: data.amount
+    })
+}
+
 function sellStock(data, id) {
-  console.log(data)
   return db('portfolio_stocks')
     .where({
       portfolio_id: id,
