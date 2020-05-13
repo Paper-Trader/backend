@@ -26,6 +26,7 @@ router.get('/', authMiddleware.authenticate, async (req, res) => {
 router.put('/cash', authMiddleware.authenticate, async (req, res) => {
   const changes = req.body;
   const { id } = res.decodeJwt;
+  console.log(changes, id)
 
   try {
     const cashUpdate = await Portfolios.updateCash(changes, id);
