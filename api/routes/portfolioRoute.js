@@ -26,7 +26,6 @@ router.get('/', authMiddleware.authenticate, async (req, res) => {
 router.put('/cash', authMiddleware.authenticate, async (req, res) => {
   const changes = req.body;
   const { id } = res.decodeJwt;
-  console.log(changes, id)
 
   try {
     const cashUpdate = await Portfolios.updateCash(changes, id);
@@ -43,7 +42,6 @@ router.put('/cash', authMiddleware.authenticate, async (req, res) => {
 router.post('/buy', authMiddleware.authenticate, async (req, res) => {
   const stock = req.body;
   const { id } = res.decodeJwt;
-  console.log(stock, id)
 
   try {
     const buyStock = await Portfolios.buyStock(stock, id);
@@ -60,7 +58,6 @@ router.post('/buy', authMiddleware.authenticate, async (req, res) => {
 router.put('/buy', authMiddleware.authenticate, async (req, res) => {
   const stock = req.body;
   const { id } = res.decodeJwt;
-  console.log(stock, id)
 
   try {
     const buyStock = await Portfolios.buyExistingStock(stock, id);
@@ -80,6 +77,22 @@ router.delete('/sell', authMiddleware.authenticate, async (req, res) => {
 
   try {
     const sellStock = await Portfolios.sellStock(stock, id);
+
+    res.status(200).json(sellStock)
+  } catch (err) {
+    res.status(500).json({ message: `${err}` });
+  }
+})
+
+// // @ROUTE DEL /portfolio
+// // @DESCRIPTION Removes some stock from user portfolio
+// // @ACCESS Private
+router.put('/sell', authMiddleware.authenticate, async (req, res) => {
+  const stock = req.body;
+  const { id } = res.decodeJwt;
+
+  try {
+    const sellStock = await Portfolios.sellPartialStock(stock, id);
 
     res.status(200).json(sellStock)
   } catch (err) {

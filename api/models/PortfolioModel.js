@@ -8,6 +8,7 @@ module.exports = {
     buyStock,
     sellStock,
     buyExistingStock,
+    sellPartialStock,
 }
 
 function getPortfolio(username) {
@@ -50,8 +51,10 @@ function buyStock(data, id) {
 
 function buyExistingStock(data, id) {
   return db('portfolio_stocks')
-    .where({portfolio_id: id})
-    .where({stock_symbol: data.stock_symbol})
+    .where({
+      portfolio_id: id,
+      stock_symbol: data.stock_symbol
+    })
     .update({
       amount: data.amount
     })
@@ -64,4 +67,15 @@ function sellStock(data, id) {
       stock_symbol: data.stock_symbol
     })
     .del()
+}
+
+function sellPartialStock(data, id) {
+  return db('portfolio_stocks')
+    .where({
+      portfolio_id: id,
+      stock_symbol: data.stock_symbol
+    })
+    .update({
+      amount: data.amount
+    })
 }
