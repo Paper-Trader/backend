@@ -5,7 +5,8 @@ module.exports = {
     getWatchlists,
     getWatchlist,
     addWatchlist,
-    addToWatchList
+    addToWatchList,
+    removeFromWatchList
 }
 
 function getWatchlist(username) {
@@ -32,6 +33,15 @@ function addToWatchList(id, stock) {
     watchlist_id: id,
     stock_symbol: stock
   })
+}
+
+function removeFromWatchList(id, stock) {
+  return db('watchlist_stocks')
+    .where({
+      watchlist_id: id,
+      stock_symbol: stock
+    })
+    .del()
 }
 
 
