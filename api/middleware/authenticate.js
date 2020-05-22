@@ -15,7 +15,7 @@ function authenticate(req, res, next) {
     const secret = process.env.JWT_SECRET;
 
     jwt.verify(token, secret, (err, decodedToken) => {
-      if (err) res.status(401).json({ message: "User not authorized." }) // Token expired or not valid
+      if (err) res.status(401).json({ message: "Session expired" }) // Token expired or not valid
       else { // Token verified; moves to the next middleware in sequence/endpoint
         res.decodeJwt = decodedToken; 
         next(); //move on to the requested endpoint
