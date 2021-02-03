@@ -44,5 +44,3 @@ function removeFromWatchList(id, stock) {
     .del()
 }
 
-
-
