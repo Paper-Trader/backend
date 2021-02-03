@@ -43,10 +43,8 @@ exports.up = function(knex) {
         .references('stocks.symbol')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
-      // table.primary('portfolio_id', 'stock_id')
+      table.integer('purchased')
       table.integer('amount')
-      // table.date('purchaseDate')
-      // table.date('soldDate')
     })
 
     .createTable('watchlist', table => { // Portfolio Table
@@ -75,7 +73,6 @@ exports.up = function(knex) {
         .references('stocks.symbol')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
-      // table.primary('watchlist_id', 'stock_id')
       table.string('symbol', 8)
       table.decimal('price', 9, 2)
     })

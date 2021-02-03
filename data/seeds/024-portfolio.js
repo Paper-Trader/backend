@@ -4,7 +4,7 @@ exports.seed = function(knex) {
     .then(function () {
       return knex('portfolio').insert([
         {
-          cash: 515,
+          cash: 51571,
           user_id: 1
         }
       ]);
