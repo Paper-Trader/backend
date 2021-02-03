@@ -13,7 +13,7 @@ module.exports = {
 
 function getPortfolio(username) {
   return db('portfolio as p')
-    .select('s.symbol', 'ps.amount', 'ps.purchased')
+    .select('s.symbol', 'ps.amount', 'ps.price')
     .join('portfolio_stocks as ps', 'p.id', 'ps.portfolio_id')
     .join('stocks as s', 's.symbol', 'ps.stock_symbol')
     .join('users as u', 'p.user_id', 'u.id')
@@ -45,7 +45,7 @@ function buyStock(data, id) {
     .insert({
       portfolio_id: id,
       stock_symbol: data.stock_symbol,
-      purchased: data.purchased,
+      price: data.price,
       amount: data.amount
     })
 }
@@ -57,7 +57,7 @@ function buyExistingStock(data, id) {
       stock_symbol: data.stock_symbol
     })
     .update({
-      purchased: data.purchased,
+      price: data.price,
       amount: data.amount
     })
 }

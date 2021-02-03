@@ -43,7 +43,7 @@ exports.up = function(knex) {
         .references('stocks.symbol')
         .onDelete('SET NULL')
         .onUpdate('CASCADE')
-      table.integer('purchased')
+      table.integer('price')
       table.integer('amount')
     })
 

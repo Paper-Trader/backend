@@ -53,7 +53,7 @@ router.post('/buy', authMiddleware.authenticate, async (req, res) => {
 })
 
 // // @ROUTE PUT /portfolio
-// // @DESCRIPTION updates amount and purchased price to existing stock in user portfolio
+// // @DESCRIPTION updates amount and price to existing stock in user portfolio
 // // @ACCESS Private
 router.put('/buy', authMiddleware.authenticate, async (req, res) => {
   const stock = req.body;

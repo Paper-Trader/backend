@@ -6,19 +6,19 @@ exports.seed = function(knex) {
         {
           portfolio_id: 1,
           stock_symbol: "AMD",
-          purchased: 61.31,
+          price: 61.31,
           amount: 14
         },
         {
           portfolio_id: 1,
           stock_symbol: "AAPL",
-          purchased: 156.31,
+          price: 156.31,
           amount: 17
         },
         {
           portfolio_id: 1,
           stock_symbol: "MU",
-          purchased: 40.11,
+          price: 40.11,
           amount: 21
         },
       ]);
